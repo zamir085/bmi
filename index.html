@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Kalkulatoru - Sağlamlığınızı Ölçün</title>
+    <!-- GSAP Animasiya kitabxanasi  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- SweetAlert2 kitabxanasi -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">BMI Kalkulatoru</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Əsas Səhifə</a></li>
+                <li><a href="#" onclick="showPage('calculator')">Kalkulator</a></li>
+                <li><a href="#" onclick="showPage('info')">Məlumat</a></li>
+                <li><a href="#" onclick="showPage('tips')">Məsləhətlər</a></li>
+                <li><a href="#" onclick="showPage('about')">Haqqımızda</a></li>
+                <li><a href="#" onclick="showPage('contact')">Əlaqə</a></li>
+            </ul>
+            <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="#" onclick="showPage('home'); toggleMobileMenu()">Əsas Səhifə</a></li>
+                    <li><a href="#" onclick="showPage('calculator'); toggleMobileMenu()">Kalkulator</a></li>
+                    <li><a href="#" onclick="showPage('info'); toggleMobileMenu()">Məlumat</a></li>
+                    <li><a href="#" onclick="showPage('tips'); toggleMobileMenu()">Məsləhətlər</a></li>
+                    <li><a href="#" onclick="showPage('about'); toggleMobileMenu()">Haqqımızda</a></li>
+                    <li><a href="#" onclick="showPage('contact'); toggleMobileMenu()">Əlaqə</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="container">
+            <div class="hero">
+                <h1>BMI Kalkulatoru</h1>
+                <p>Bədən kütlə indeksinizi hesablayın və sağlamlığınızı qiymətləndirin</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3>Dəqiq Hesablama</h3>
+                    <p>Beynəlxalq standartlara uyğun BMI hesablaması</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobil Uyğun</h3>
+                    <p>Bütün cihazlarda rahatlıqla istifadə edin</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Təhlil və Məsləhət</h3>
+                    <p>Detallı nəticə təhlili və sağlamlıq məsləhətləri</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Təhlükəsiz</h3>
+                    <p>Məlumatlarınız heç yerdə saxlanılmır</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calculator Page -->
+    <div id="calculator" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>BMI Hesablayın</h1>
+                <p>Boyunuzu və çəkinizi daxil edərək BMI-nizi öyrənin</p>
+            </div>
+
+            <section class="calculator-section">
+                <h2 class="calculator-title">BMI Kalkulatoru</h2>
+                <form class="calculator-form" id="bmiForm">
+                    <div class="form-group">
+                        <label for="userName">Ad və Soyad</label>
+                        <input type="text" id="userName" name="userName" placeholder="Adınızı daxil edin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Boy (sm)</label>
+                        <input type="number" id="height" name="height" placeholder="Məsələn: 170" required min="50" max="250">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Çəki (kq)</label>
+                        <input type="number" id="weight" name="weight" placeholder="Məsələn: 70" required min="20" max="300" step="0.1">
+                    </div>
+                    <button type="submit" class="calculate-btn" id="calculateBtn">
+                        <span class="btn-text">BMI Hesabla</span>
+                    </button>
+                </form>
+                
+                <div id="result" class="result">
+                    <div class="bmi-value" id="bmiValue"></div>
+                    <div class="bmi-category" id="bmiCategory"></div>
+                    <p id="bmiDescription"></p>
+                    <p id="userGreeting"></p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Info Page -->
+    <div id="info" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>BMI Haqqında Məlumat</h1>
+                <p>Bədən Kütlə İndeksi və onun əhəmiyyəti</p>
+            </div>
+
+            <div class="page-content">
+                <h2>BMI Nədir?</h2>
+                <p>Bədən Kütlə İndeksi (BMI), boyunuza nisbətən çəkinizin sağlam olub-olmadığını ölçən sadə bir hesablamadır. BMI = Çəki (kq) / Boy² (m) formulası ilə hesablanır.</p>
+                
+                <table class="bmi-table">
+                    <thead>
+                        <tr>
+                            <th>BMI Aralığı</th>
+                            <th>Kateqoriya</th>
+                            <th>Sağlamlıq Riski</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>18.5-dən az</td>
+                            <td class="underweight">Arıq</td>
+                            <td>Artırılmış risk</td>
+                        </tr>
+                        <tr>
+                            <td>18.5-24.9</td>
+                            <td class="normal">Normal</td>
+                            <td>Minimum risk</td>
+                        </tr>
+                        <tr>
+                            <td>25.0-29.9</td>
+                            <td class="overweight">Artıq çəki</td>
+                            <td>Artırılmış risk</td>
+                        </tr>
+                        <tr>
+                            <td>30.0 və yuxarı</td>
+                            <td class="obese">Piylənmə</td>
+                            <td>Yüksək risk</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>BMI-nin Məhdudiyyətləri</h3>
+                <p>BMI sadə və faydalı bir alətdir, lakin bəzi məhdudiyyətləri var:</p>
+                <p>• Əzələ kütləsi və yağ nisbətini ayırd etmir</p>
+                <p>• Yaş və cinsi nəzərə almır</p>
+                <p>• İdmançılar üçün dəqiq olmaya bilər</p>
+                <p>• Etnik mənsubiyyət fərqlərini nəzərə almır</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips Page -->
+    <div id="tips" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>Sağlamlıq Məsləhətləri</h1>
+                <p>Sağlam həyat tərzi üçün praktik tövsiyələr</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🏃‍♂️ Fiziki Aktivlik</h3>
+                    <p><strong>Həftəlik məsləhətlər:</strong></p>
+                    <p>• 150 dəqiqə orta intensivlikdə aktivlik</p>
+                    <p>• 75 dəqiqə yüksək intensivlikdə aktivlik</p>
+                    <p>• Həftədə 2 dəfə güc antrenmanı</p>
+                    <p>• Gündəlik addımlar: 8000-10000</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🥗 Sağlam Qidalanma</h3>
+                    <p><strong>Əsas prinsiplər:</strong></p>
+                    <p>• Çox meyvə və tərəvəz istehlak edin</p>
+                    <p>• Tam taxıl məhsulları seçin</p>
+                    <p>• Arıq protein mənbələri əlavə edin</p>
+                    <p>• Emal olunmuş qidalardan uzaq durun</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>💧 Su İçmək</h3>
+                    <p><strong>Gündəlik tələblər:</strong></p>
+                    <p>• Kişilər: 3.7 litr</p>
+                    <p>• Qadınlar: 2.7 litr</p>
+                    <p>• İdman zamanı əlavə su</p>
+                    <p>• Şəkərli içkiləri məhdudlaşdırın</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>😴 Keyfiyyətli Yuxu</h3>
+                    <p><strong>Yuxu gigiyenası:</strong></p>
+                    <p>• 7-9 saat yuxu</p>
+                    <p>• Mütəmadi yuxu qrafiki</p>
+                    <p>• Yuxudan əvvəl ekranlardan uzaq</p>
+                    <p>• Rahat yuxu mühiti</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>Haqqımızda</h1>
+                <p>Sağlamlığınız bizim prioritetimizdir</p>
+            </div>
+
+            <div class="page-content">
+                <h2>Missiyamız</h2>
+                <p>BMI Kalkulatoru olaraq, insanların sağlamlıq vəziyyətlərini daha yaxşı başa düşmələrinə kömək etməyi hədəfləyirik. Sadə, dəqiq və əlçatan alətlərlə hər kəsin öz sağlamlığına diqqət yetirə bilməsi üçün çalışırıq.</p>
+
+                <h3>Xüsusiyyətlərimiz</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h4>Dəqiqlik</h4>
+                        <p>Beynəlxalq tibbi standartlara uyğun hesablamalar</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔐</div>
+                        <h4>Məxfilik</h4>
+                        <p>Həm məlumatınız saxlanılmır, həm də paylaşılmır</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h4>Təhsil</h4>
+                        <p>Sağlamlıq haqqında faydalı məlumatlar</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h4>Əlçatanlılıq</h4>
+                        <p>Hər yerdən və hər cihazdan istifadə</p>
+                    </div>
+                </div>
+
+                <h3>Əhəmiyyətli Qeyd</h3>
+                <p>Bu kalkulator yalnız ümumi məlumat məqsədləri üçündür və tibbi məsləhət əvəz etmir. Sağlamlıq problemləriniz varsa, mütləq həkimlə məsləhətləşin.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>Əlaqə</h1>
+                <p>Bizə yazın, geri bildirimlərinizi bölüşün</p>
+            </div>
+
+            <div class="page-content">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>📧 Email</h3>
+                        <p>info@bmikalkulatoru.az</p>
+                        <p>Suallarınızı və təkliflərinizi göndərin</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>📱 Sosial Media</h3>
+                        <p>Facebook: @BMIKalkulatoru</p>
+                        <p>Instagram: @bmi_calculator_az</p>
+                        <p>Bizə sosial mediada da izləyin</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>❓ Tez-tez Verilən Suallar</h3>
+                        <p><strong>S: BMI nə qədər dəqiqdir?</strong></p>
+                        <p>C: BMI ümumi göstəricidir, dəqiq səhiyyə qiymətləndirməsi üçün həkimə müraciət edin.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🔧 Texniki Dəstək</h3>
+                        <p>support@bmikalkulatoru.az</p>
+                        <p>Texniki problemlər üçün bizə yazın</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" onclick="showPage('home')">Əsas Səhifə</a>
+                <a href="#" onclick="showPage('info')">Məxfilik Siyasəti</a>
+                <a href="#" onclick="showPage('about')">İstifadə Şərtləri</a>
+                <a href="#" onclick="showPage('contact')">Əlaqə</a>
+            </div>
+            <p>&copy; 2025 BMI Kalkulatoru. Bütün hüquqlar qorunur.</p>
+            <p>Bu kalkulator yalnız məlumat məqsədləri üçündür. Həkim məsləhəti əvəz etmir.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
+     
